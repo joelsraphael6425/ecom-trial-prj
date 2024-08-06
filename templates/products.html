@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {{ product.description|truncatewords:155 }}
+{% endblock %}
+{% block title %}
+    {% if category %}
+        {{ product.name }} - ABC Store
+    {% endif %}
+{% endblock %}
+{% block content %}
+<style>
+    .product-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .product-image {
+        flex: 1;
+        margin-right: 20px;
+    }
+
+    .product-details {
+        flex: 2;
+    }
+
+    .product-details h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .product-details p {
+        margin-bottom: 10px;
+    }
+
+    .add-to-cart {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .add-to-cart:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="product-container">
+    <div class="product-image">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    </div>
+    <div class="product-details">
+        <h1>{{ product.name }}</h1>
+        <p>${{ product.price }}</p>
+        <p>Product Description:</p>
+        <p>{{ product.description }}</p>
+        {% if product.stock <= 0 %}
+            <p><b>Out of stock</b></p>
+        {% else %}
+            <a href="{% url 'cart:add_cart' product.id %}" class="add-to-cart">Add to cart</a> <!-- Add proper URL for Add to Cart functionality -->
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
